@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 啟動圖示：底色取色階 P.t95，前景的對話框用 P.t40（見 ui/theme/Palette.kt） -->
+    <color name="ic_launcher_background">#C0FFFB</color>
+    <color name="ic_launcher_foreground">#296A67</color>
+</resources>

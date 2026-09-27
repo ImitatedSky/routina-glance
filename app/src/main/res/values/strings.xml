@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Routina Glance</string>
+
+    <!-- 共用動作 -->
+    <string name="action_back">返回</string>
+    <string name="action_more">更多</string>
+    <string name="action_delete">刪除</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_settings">設定</string>
+    <string name="action_search">搜尋</string>
+    <string name="action_close_search">關閉搜尋</string>
+    <string name="action_share">分享</string>
+    <string name="action_clear">清除</string>
+
+    <!-- 收件匣 -->
+    <string name="inbox_title">訊息</string>
+    <string name="inbox_filter_all">全部</string>
+    <string name="inbox_empty">還沒有訊息。監聽中的 App 收到新通知，就會出現在這裡。</string>
+    <string name="inbox_search_hint">搜尋訊息內容或傳訊人</string>
+    <string name="inbox_search_empty">找不到符合的訊息</string>
+    <string name="inbox_self">我</string>
+
+    <!-- 權限引導 -->
+    <string name="access_title">先開啟「通知存取權」</string>
+    <string name="access_body">Glance 靠讀取通知來保存訊息。開啟後，LINE、Instagram 這些 App 的新訊息通知會被抄進這裡，你在這裡看，對方不會看到「已讀」。</string>
+    <string name="access_open">前往開啟通知存取</string>
+    <string name="access_restricted_title">開關是灰的、按不下去？</string>
+    <string name="access_restricted_body">Android 13 以後，不是從 Play 商店安裝的 App 預設不能開通知存取（系統稱為「受限制的設定」）。照著做一次就好：</string>
+    <string name="access_restricted_steps">1. 按下面的按鈕打開 Glance 的「應用程式資訊」\n2. 點右上角的 ⋮\n3. 選「允許受限制的設定」\n4. 驗證身分（指紋或螢幕鎖定密碼）\n5. 回到這裡，再按一次「前往開啟通知存取」</string>
+    <string name="access_open_app_info">打開應用程式資訊</string>
+
+    <!-- 注意事項 -->
+    <string name="caveats_title">注意事項</string>
+    <string name="caveats_body">• 設成靜音的聊天室或群組不會跳通知，Glance 也收不到。\n• 聊天室正開在 App 裡，或電腦版正開著時，手機通常不會跳通知。\n• 聊天 App 的通知要設成「顯示訊息內容」，否則只抄得到「你有一則新訊息」。\n• 照片、貼圖、語音只會留下「傳送了照片」這類文字。\n• 從通知直接回覆，對方會看到已讀。\n• 安裝 Glance 之前的訊息拿不到。</string>
+
+    <!-- 對話 -->
+    <string name="conversation_delete">刪除這個對話</string>
+    <string name="conversation_delete_title">刪除這個對話？</string>
+    <string name="conversation_delete_message">只會刪掉 Glance 裡存的紀錄，聊天 App 裡的訊息不受影響。</string>
+    <string name="conversation_today">今天</string>
+    <string name="conversation_yesterday">昨天</string>
+    <!-- 不是 MessagingStyle 的舊式通知，傳訊人與時間是推測的 -->
+    <string name="conversation_guess_short">推測</string>
+
+    <!-- 設定 -->
+    <string name="settings_title">設定</string>
+    <string name="settings_access">通知存取</string>
+    <string name="settings_access_on">已開啟</string>
+    <string name="settings_access_off">未開啟</string>
+    <string name="settings_apps">要保存哪些 App 的訊息</string>
+    <string name="settings_apps_hint">內建的五個 App 預設都開著。其他 App 也可以加進來，會用通用的方式解析，效果依 App 而定。</string>
+    <string name="settings_add_app">新增其他 App</string>
+    <string name="settings_pick_app">選一個 App</string>
+    <string name="settings_pick_app_empty">沒有其他可以加的 App</string>
+    <string name="settings_retention">保存多久</string>
+    <string name="settings_retention_hint">超過期限的訊息會在開 App 時、以及收到新通知時（一天最多一次）自動刪掉。</string>
+    <string name="settings_retention_days">%1$d 天</string>
+    <string name="settings_retention_forever">永久</string>
+    <string name="settings_clear_original">存好後清掉原通知</string>
+    <string name="settings_clear_original_hint">原通知一點下去就會打開聊天室，對方就看到已讀。存進 Glance 之後直接把它清掉，就不會手滑點到。關掉的話原通知會留在通知欄。</string>
+    <string name="settings_app_lock">開啟 App 時要解鎖</string>
+    <string name="settings_app_lock_hint">每次回到 Glance 都要指紋或螢幕鎖定密碼，最近使用的畫面也不會顯示內容。</string>
+    <string name="settings_app_lock_unavailable">這支手機還沒設定螢幕鎖定，沒辦法開啟</string>
+    <string name="settings_debug">開發者：原始通知紀錄</string>
+    <string name="settings_privacy">Glance 沒有網路權限，訊息只存在這支手機上。</string>
+    <string name="settings_version">版本 %1$s</string>
+
+    <!-- 開發者頁 -->
+    <string name="debug_title">原始通知紀錄</string>
+    <string name="debug_hint">最近 200 則監聽中 App 的原始通知與移除事件，用來確認各家 App 的通知格式。內容含訊息原文，分享前請留意。</string>
+    <string name="debug_empty">還沒有紀錄</string>
+    <string name="debug_clear_title">清除全部原始紀錄？</string>
+
+    <!-- App 鎖 -->
+    <string name="lock_title">Glance 已上鎖</string>
+    <string name="lock_unlock">解鎖</string>
+    <string name="lock_prompt_title">解鎖 Routina Glance</string>
+</resources>

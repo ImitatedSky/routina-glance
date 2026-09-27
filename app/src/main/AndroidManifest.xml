@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      刻意沒有 INTERNET 權限：這個 App 存的是別人傳給你的訊息，
+      不連網就從根本上保證內容不會離開這支手機（除非使用者自己按分享）。
+
+      讀通知靠的是「通知存取權」，那不是 uses-permission，
+      而是下面 service 的 BIND_NOTIFICATION_LISTENER_SERVICE，由使用者在系統設定裡開。
+    -->
+
+    <!-- Android 11 起看不到其他 App 的名稱與圖示，除非宣告要查哪些。
+         列出「有桌面圖示的 App」就涵蓋聊天 App，也是「新增其他 App」清單的來源。 -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".GlanceApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Glance">
+
+        <!-- 家族成員標記：Hub 掃描已安裝的 App 時靠這幾個值認出 Glance -->
+        <meta-data
+            android:name="com.routina.family.member"
+            android:value="true" />
+        <meta-data
+            android:name="com.routina.family.id"
+            android:value="glance" />
+        <meta-data
+            android:name="com.routina.family.name"
+            android:value="Routina Glance" />
+        <meta-data
+            android:name="com.routina.family.summary"
+            android:value="不開 App 也能看訊息，不留已讀" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".capture.GlanceListener"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

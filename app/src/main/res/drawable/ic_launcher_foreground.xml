@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  對話框裡一隻眼睛：「看得到訊息」。
+  眼睛是用 evenOdd 挖出來的洞而不是白色填色，這樣同一張圖直接當 monochrome 圖層也成立
+  （主題圖示只看透明度）。所有形狀都在 108dp 畫布中央 66dp 的安全區內。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="@color/ic_launcher_foreground"
+        android:fillType="evenOdd"
+        android:pathData="M38,32 H70 A10,10 0 0 1 80,42 V60 A10,10 0 0 1 70,70 H51 L39,80 L41,70 H38 A10,10 0 0 1 28,60 V42 A10,10 0 0 1 38,32 Z M37,51 Q54,36 71,51 Q54,66 37,51 Z" />
+    <path
+        android:fillColor="@color/ic_launcher_foreground"
+        android:pathData="M48,51 A6,6 0 1 0 60,51 A6,6 0 1 0 48,51 Z" />
+</vector>
