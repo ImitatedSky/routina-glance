@@ -76,26 +76,33 @@ def ramp(hue, chroma):
 
 # ---------- 家族種子 ----------
 
-# Glance 自己的種子：沉穩的青綠（teal），跟 Fit 的靛藍、Bite 的家族色分得開。
-# 「偷看訊息」要的是安靜、不刺眼的顏色，所以彩度也壓得比 Fit 低一點。
-SEED = "#2E6F6C"
+# Glance 的顏色全部取自啟動圖示（tools/generate_icon.py 用的設計稿）：
+# 主色 = 圖示的灰綠，強調色 = 圖示的琥珀三角，中性色 = 圖示的奶油底。
+# 這樣 App 打開來跟桌面上的圖示是同一個調性。
+SEED = "#82907F"     # 灰綠
+ACCENT = "#D19F57"   # 琥珀
+CREAM = "#FAF4E9"    # 奶油底
 L, a, b = rgb_to_oklab(*hex_to_rgb(SEED))
 seed_c = math.hypot(a, b)
 seed_h = math.degrees(math.atan2(b, a)) % 360
 print("seed %s -> Oklch  L=%.4f  C=%.4f  h=%.1f" % (SEED, L, seed_c, seed_h))
 
 # M3 的彩度比例（CAM16 48/16/24/4/8）換算到 Oklch，以種子彩度為基準
-# Fit 的下限是 0.11；青綠在同樣的彩度下亮階會變成螢光青（0.08 也還是太亮，實機看過），
-# 所以 Glance 直接用種子本身的彩度，下限 0.06
-c_primary = max(seed_c, 0.06)
+# 灰綠本身彩度只有 0.03，直接用的話 t40 會灰到看不出是綠色、按鈕像停用狀態，
+# 所以拉到 0.045。0.06 實機看過：淺色容器變成薄荷綠，跟圖示的灰綠對不上（Fit 是 0.11）
+c_primary = max(seed_c, 0.045)
+_, aa, ab = rgb_to_oklab(*hex_to_rgb(ACCENT))
+accent_h = math.degrees(math.atan2(ab, aa)) % 360
+_, ca, cb = rgb_to_oklab(*hex_to_rgb(CREAM))
+cream_h = math.degrees(math.atan2(cb, ca)) % 360
 ramps = {
     "P": ramp(seed_h, c_primary),
     "S": ramp(seed_h, c_primary / 3),
-    "T": ramp((seed_h + 60) % 360, c_primary * 0.5),
-    # 中性色的彩度用絕對值不用比例：接近白的地方色相很容易被看出來，
-    # 照比例算出來的 0.009 會讓整頁像鋪了一層藍（實機看過才調的）
-    "N": ramp(seed_h, 0.0040),
-    "NV": ramp(seed_h, 0.0120),
+    "T": ramp(accent_h, 0.09),
+    # 中性色走奶油的暖色相，底色才會跟圖示的奶油卡片一樣。
+    # 彩度用絕對值：0.008 在 t97 看得出是奶油、又不至於像泛黃的紙
+    "N": ramp(cream_h, 0.0080),
+    "NV": ramp(cream_h, 0.0160),
     "E": ramp(28.0, 0.16),          # 紅，標準警示色的色相
 }
 
@@ -128,10 +135,10 @@ import androidx.compose.ui.graphics.Color
  */
 ''' % SEED
 
-kt += "\n" + obj("P", "主色：Glance 的青綠", ramps["P"])
+kt += "\n" + obj("P", "主色：圖示的灰綠", ramps["P"])
 kt += "\n\n" + obj("S", "次要色：同色相、低彩度，用在不搶戲的容器", ramps["S"])
-kt += "\n\n" + obj("T", "第三色：色相 +60，只有少數強調處用得到", ramps["T"])
-kt += "\n\n" + obj("N", "中性色：帶一點主色色相的灰，不是純灰", ramps["N"])
+kt += "\n\n" + obj("T", "第三色：圖示的琥珀，只有少數強調處用得到", ramps["T"])
+kt += "\n\n" + obj("N", "中性色：圖示奶油底的暖灰，不是純灰", ramps["N"])
 kt += "\n\n" + obj("NV", "中性變體：比中性色多一點彩度，用在分隔與次要文字", ramps["NV"])
 kt += "\n\n" + obj("E", "錯誤色。只用在刪除這類破壞性動作", ramps["E"])
 
