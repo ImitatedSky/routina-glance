@@ -73,8 +73,9 @@ NotificationListenerService → 通用解析 → 各 App 修正 → 去重 → R
 沿用家族規則：中文字重封頂 Medium(500)、字距 0、關掉 `includeFontPadding`
 （見 [`ui/theme/Type.kt`](app/src/main/java/com/routina/glance/ui/theme/Type.kt)）。
 
-色階由 [`tools/generate_palette.py`](tools/generate_palette.py) 從 Glance 自己的種子色 `#2E6F6C`
-（沉穩的青綠）在 Oklch 裡算出來，`ColorScheme` 每個角色都給值。
+顏色取自啟動圖示：主色是圖示的灰綠 `#82907F`、強調色是琥珀 `#D19F57`、底色是奶油 `#FAF4E9`。
+[`tools/generate_palette.py`](tools/generate_palette.py) 在 Oklch 裡從這三色算出完整色階，`ColorScheme` 每個角色都給值。
+啟動圖示由 [`tools/generate_icon.py`](tools/generate_icon.py) 從設計稿產生。
 
 ## 建置
 
