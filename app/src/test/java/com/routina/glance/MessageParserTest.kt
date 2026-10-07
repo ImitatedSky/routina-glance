@@ -63,6 +63,45 @@ class MessageParserTest {
     }
 
     @Test
+    fun instagramTitleIsTheOwnAccountSoUseTheSender() {
+        // Instagram 的通知標題是收訊帳號（使用者自己），對方只出現在訊息的傳訊人
+        val snapshot = styleSnapshot(
+            listOf(StyleMessage("friend.ig", "hi", 1_000)),
+            conversationTitle = null,
+            isGroup = false,
+            packageName = KnownApps.INSTAGRAM
+        ).copy(title = "my.account")
+        val parsed = MessageParser.parse(snapshot)!!
+        assertEquals("friend.ig", parsed.title)
+        assertEquals("${KnownApps.INSTAGRAM}/friend.ig", parsed.conversationKey)
+    }
+
+    @Test
+    fun titleThatIsTheUserIsSkipped() {
+        // 群組沒有 conversationTitle、通知標題又是自己時，退回傳訊人
+        val base = styleSnapshot(
+            listOf(StyleMessage("friend.ig", "hi", 1_000)),
+            conversationTitle = null,
+            isGroup = true,
+            packageName = KnownApps.INSTAGRAM
+        ).copy(title = "my.account")
+        val snapshot = base.copy(style = base.style!!.copy(userName = "my.account"))
+        assertEquals("friend.ig", MessageParser.parse(snapshot)!!.title)
+    }
+
+    @Test
+    fun onlyMyOwnRepliesHasNoTitle() {
+        // 只有自己的回覆、標題又是自己：寧可不收，也不要建一個叫自己名字的對話
+        val base = styleSnapshot(
+            listOf(StyleMessage(null, "ok", 1_000, isSelf = true)),
+            conversationTitle = null,
+            isGroup = false
+        ).copy(title = "my.account")
+        val snapshot = base.copy(style = base.style!!.copy(userName = "my.account"))
+        assertNull(MessageParser.parse(snapshot))
+    }
+
+    @Test
     fun shortcutIdWinsOverTitleForTheKey() {
         val snapshot = styleSnapshot(listOf(StyleMessage("阿明", "在嗎", 1_000)))
             .copy(shortcutId = "chat-42")

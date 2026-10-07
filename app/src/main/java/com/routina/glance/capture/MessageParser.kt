@@ -51,12 +51,18 @@ object MessageParser {
         }
         if (messages.isEmpty()) return null
 
-        // 一對一的對話通常沒有 conversationTitle，標題就是對方的名字
-        val title = style.conversationTitle.clean()
-            ?: snapshot.conversationTitle.clean()
-            ?: snapshot.title.clean()
-            ?: messages.firstOrNull { !it.isSelf }?.sender?.ifBlank { null }
-            ?: return null
+        // 一對一的對話通常沒有 conversationTitle，標題要用對方的名字。
+        // 不能直接拿通知標題（EXTRA_TITLE）：Instagram 在那裡放的是收訊的帳號，也就是使用者自己，
+        // 結果每個對話都顯示成自己的名字。所以一對一先看傳訊人，而且任何等於自己名字的候選都跳過。
+        val other = messages.lastOrNull { !it.isSelf && it.sender.isNotBlank() }?.sender
+        val self = style.userName.clean()
+        val title = listOfNotNull(
+            style.conversationTitle.clean(),
+            snapshot.conversationTitle.clean(),
+            other.takeIf { !style.isGroup },
+            snapshot.title.clean(),
+            other
+        ).firstOrNull { it != self } ?: return null
 
         return ParsedNotification(
             packageName = snapshot.packageName,
@@ -69,8 +75,11 @@ object MessageParser {
 
     /** 沒有 MessagingStyle 的舊式通知：標題當對話，內文當訊息 */
     private fun fromExtras(snapshot: NotificationSnapshot): ParsedNotification? {
-        val title = snapshot.conversationTitle.clean() ?: snapshot.title.clean() ?: return null
-        val sender = snapshot.title.clean() ?: title
+        // MessagingStyle 解析不出東西才會走到這裡，此時它的 user（自己）仍然可以拿來排除標題
+        val self = snapshot.style?.userName.clean()
+        val title = listOfNotNull(snapshot.conversationTitle.clean(), snapshot.title.clean())
+            .firstOrNull { it != self } ?: return null
+        val sender = snapshot.title.clean()?.takeIf { it != self } ?: title
 
         // 順序：InboxStyle 的逐行 > BIG_TEXT > TEXT。BIG_TEXT 是展開後的全文，TEXT 常被截斷
         val bodies = snapshot.textLines.mapNotNull { it.clean() }.ifEmpty {

@@ -44,6 +44,7 @@ object SnapshotReader {
         return StyleSnapshot(
             conversationTitle = style.conversationTitle?.toString(),
             isGroup = style.isGroupConversation,
+            userName = user.name?.toString(),
             messages = style.messages.map { message ->
                 val person = message.person
                 // person 為 null 代表是使用者自己傳的（例如從通知直接回覆）
@@ -83,7 +84,7 @@ object SnapshotReader {
             if (style == null) {
                 appendLine("(none)")
             } else {
-                appendLine("conversationTitle: ${style.conversationTitle}  isGroup: ${style.isGroup}")
+                appendLine("conversationTitle: ${style.conversationTitle}  isGroup: ${style.isGroup}  user: ${style.userName}")
                 style.messages.forEach { m ->
                     appendLine("[${m.timestamp}] ${if (m.isSelf) "(self)" else m.sender}: ${m.text} ${m.dataMimeType ?: ""}")
                 }

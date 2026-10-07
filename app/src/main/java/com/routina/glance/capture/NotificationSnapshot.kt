@@ -27,7 +27,9 @@ data class NotificationSnapshot(
 data class StyleSnapshot(
     val conversationTitle: String?,
     val isGroup: Boolean,
-    val messages: List<StyleMessage>
+    val messages: List<StyleMessage>,
+    /** MessagingStyle 的 user，也就是使用者自己的名字。拿來排除「標題是自己」的情況 */
+    val userName: String? = null
 )
 
 data class StyleMessage(
