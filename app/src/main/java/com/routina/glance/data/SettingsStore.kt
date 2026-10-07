@@ -13,7 +13,8 @@ data class GlanceSettings(
     val extraApps: Set<String> = emptySet(),
     /** 0 = 永久保留 */
     val retentionDays: Int = 30,
-    val clearOriginal: Boolean = true,
+    /** 預設關：原通知留在通知欄，跟裝 Glance 之前一樣；想防手滑再自己打開 */
+    val clearOriginal: Boolean = false,
     val appLock: Boolean = false
 )
 
