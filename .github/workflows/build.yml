@@ -145,6 +145,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # 已存在的 Release（例如手動上傳的）一律不覆蓋，重跑舊 tag 時直接略過
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "::notice::release $GITHUB_REF_NAME already exists; leaving it untouched"
+            exit 0
+          fi
           cp app/build/outputs/apk/release/app-release.apk "routina-glance-${GITHUB_REF_NAME}.apk"
           gh release create "$GITHUB_REF_NAME" \
             "routina-glance-${GITHUB_REF_NAME}.apk" \
